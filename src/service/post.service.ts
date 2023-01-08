@@ -18,3 +18,10 @@ export async function getPosts() {
     throw new Error(error);
   }
 }
+export async function getPostByID(postID: string) {
+  try {
+    return await Post.findById(postID);
+  } catch (error: any) {
+    throw new Error(error);
+  }
+}

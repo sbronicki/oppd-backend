@@ -8,4 +8,4 @@ export const createPostSchema = object({
   }),
 });
 
-export type CreatePostInput = TypeOf<typeof createPostSchema>;
+export type CreatePostType = TypeOf<typeof createPostSchema>;
