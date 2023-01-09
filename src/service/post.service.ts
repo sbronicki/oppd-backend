@@ -20,7 +20,7 @@ export async function getPosts() {
 }
 export async function getPostByID(postID: string) {
   try {
-    return await Post.findById(postID);
+    return await Post.findOne({ _id: postID });
   } catch (error: any) {
     throw new Error(error);
   }

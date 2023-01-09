@@ -9,9 +9,13 @@ export async function createPostHandler(
   try {
     const post = await createPost(req.body);
     return res.send(post);
-  } catch (error) {
-    console.error(error);
-    return res.status(400);
+  } catch (error: any) {
+    return res.status(400).send(
+      JSON.stringify({
+        message: "Could not create post",
+        errorMsg: error.message,
+      })
+    );
   }
 }
 
@@ -19,9 +23,13 @@ export async function getPostsHandler(req: Request, res: Response) {
   try {
     const posts = await getPosts();
     return res.send(posts);
-  } catch (error) {
-    console.error(error);
-    return res.status(400);
+  } catch (error: any) {
+    return res.status(400).send(
+      JSON.stringify({
+        message: "Could not get posts",
+        errorMsg: error.message,
+      })
+    );
   }
 }
 
@@ -29,8 +37,12 @@ export async function getPostByIDHandler(req: Request, res: Response) {
   try {
     const post = await getPostByID(req.params.postID);
     return res.send(post);
-  } catch (error) {
-    console.error(error);
-    return res.status(400);
+  } catch (error: any) {
+    return res.status(400).send(
+      JSON.stringify({
+        error: "Could not find post",
+        errorMsg: error.message,
+      })
+    );
   }
 }
