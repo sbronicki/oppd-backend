@@ -8,6 +8,9 @@ export async function createPostHandler(
 ) {
   try {
     const post = await createPost(req.body);
+    if (!post) {
+      throw new Error("Could not create post");
+    }
     return res.send(post);
   } catch (error: any) {
     return res.status(400).send(
@@ -22,6 +25,9 @@ export async function createPostHandler(
 export async function getPostsHandler(req: Request, res: Response) {
   try {
     const posts = await getPosts();
+    if (!posts) {
+      throw new Error("Could not get posts");
+    }
     return res.send(posts);
   } catch (error: any) {
     return res.status(400).send(
@@ -35,7 +41,11 @@ export async function getPostsHandler(req: Request, res: Response) {
 
 export async function getPostByIDHandler(req: Request, res: Response) {
   try {
-    const post = await getPostByID(req.params.postID);
+    const postID = req.params.postID;
+    const post = await getPostByID(postID);
+    if (!post) {
+      throw new Error("Could not find post with ID " + postID);
+    }
     return res.send(post);
   } catch (error: any) {
     return res.status(400).send(
