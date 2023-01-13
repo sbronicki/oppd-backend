@@ -28,7 +28,8 @@ export async function getPostsHandler(req: Request, res: Response) {
     if (!posts) {
       throw new Error("Could not get posts");
     }
-    return res.send(posts);
+    const reversed = posts.reverse();
+    return res.send(reversed);
   } catch (error: any) {
     return res.status(400).send(
       JSON.stringify({
