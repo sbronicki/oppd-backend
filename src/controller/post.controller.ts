@@ -1,17 +1,28 @@
 import { Request, Response } from "express";
+import { PostDocument } from "../models/post.model";
 import { CreatePostType } from "../schema/post.schema";
-import { createPost, getPostByID, getPosts } from "../service/post.service";
+import {
+  checkPostAllow,
+  createPost,
+  getPostByID,
+  getPosts,
+} from "../service/post.service";
 
 export async function createPostHandler(
   req: Request<{}, {}, CreatePostType["body"]>,
   res: Response
 ) {
   try {
-    const post = await createPost(req.body);
-    if (!post) {
-      throw new Error("Could not create post");
+    const postAllowed: boolean = await checkPostAllow();
+    if (postAllowed) {
+      const post: PostDocument = await createPost(req.body);
+      if (!post) {
+        throw new Error("Could not create post");
+      }
+      return res.send(post.createdAt);
+    } else {
+      res.status(405).send({ error: "Posting is not allowed at this time." });
     }
-    return res.send(post);
   } catch (error: any) {
     return res.status(400).send(
       JSON.stringify({
@@ -28,8 +39,7 @@ export async function getPostsHandler(req: Request, res: Response) {
     if (!posts) {
       throw new Error("Could not get posts");
     }
-    const reversed = posts.reverse();
-    return res.send(reversed);
+    return res.send(posts);
   } catch (error: any) {
     return res.status(400).send(
       JSON.stringify({
