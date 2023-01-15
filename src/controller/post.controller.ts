@@ -21,18 +21,16 @@ export async function createPostHandler(
       }
       return res.send({ success: post.createdAt });
     } else {
-      res.status(405).send({ error: "Posting is not allowed at this time." });
+      return res.status(405).send({
+        error: "Posting is not allowed at this time.",
+      });
     }
   } catch (error: any) {
-    return res.status(400).send(
-      JSON.stringify({
-        message: "Could not create post",
-        errorMsg: error.message,
-      })
-    );
+    return res.status(400).send({
+      error: error.message,
+    });
   }
 }
-
 export async function getPostsHandler(req: Request, res: Response) {
   try {
     const posts = await getPosts();
@@ -41,15 +39,11 @@ export async function getPostsHandler(req: Request, res: Response) {
     }
     return res.send(posts);
   } catch (error: any) {
-    return res.status(400).send(
-      JSON.stringify({
-        message: "Could not get posts",
-        errorMsg: error.message,
-      })
-    );
+    return res.status(400).send({
+      error: error.message,
+    });
   }
 }
-
 export async function getPostByIDHandler(req: Request, res: Response) {
   try {
     const postID = req.params.postID;
@@ -59,11 +53,8 @@ export async function getPostByIDHandler(req: Request, res: Response) {
     }
     return res.send(post);
   } catch (error: any) {
-    return res.status(400).send(
-      JSON.stringify({
-        error: "Could not find post",
-        errorMsg: error.message,
-      })
-    );
+    return res.status(400).send({
+      error: error.message,
+    });
   }
 }

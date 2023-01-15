@@ -36,7 +36,9 @@ export async function checkPostAllow() {
     const lastPost = await getLastPostTime();
     const lastPostDate = new Date(lastPost[0]["createdAt"]);
     const postAllowedDate = new Date(
-      lastPostDate.setHours(lastPostDate.getHours() + 12)
+      // lastPostDate.setHours(lastPostDate.getHours() + 12)
+      // for dev only
+      lastPostDate.setMinutes(lastPostDate.getMinutes() + 1)
     );
     return new Date() > postAllowedDate;
   } catch (error: any) {
