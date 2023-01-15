@@ -19,7 +19,7 @@ export async function createPostHandler(
       if (!post) {
         throw new Error("Could not create post");
       }
-      return res.send(post.createdAt);
+      return res.send({ success: post.createdAt });
     } else {
       res.status(405).send({ error: "Posting is not allowed at this time." });
     }
